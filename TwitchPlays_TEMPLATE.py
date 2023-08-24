@@ -75,49 +75,47 @@ def handle_message(message):
         # I've added some example videogame logic code below:
 
         ###################################
-        # Example GTA V Code 
+        # Example General FPS Code 
         ###################################
 
         # If the chat message is "left", then hold down the A key for 2 seconds
         if msg == "left": 
-            HoldAndReleaseKey(A, 2)
+            HoldAndReleaseKey(K, 2)
 
         # If the chat message is "right", then hold down the D key for 2 seconds
         if msg == "right": 
-            HoldAndReleaseKey(D, 2)
+            HoldAndReleaseKey(SEMICOLON, 2)
 
         # If message is "drive", then permanently hold down the W key
-        if msg == "drive": 
-            ReleaseKey(S) #release brake key first
-            HoldKey(W) #start permanently driving
-
+        if msg == "forwards": 
+            HoldAndReleaseKey(O,2)
         # If message is "reverse", then permanently hold down the S key
-        if msg == "reverse": 
-            ReleaseKey(W) #release drive key first
-            HoldKey(S) #start permanently reversing
-
-        # Release both the "drive" and "reverse" keys
-        if msg == "stop": 
-            ReleaseKey(W)
-            ReleaseKey(S)
+        if msg == "backwards": 
+            HoldAndReleaseKey(L, 2)
 
         # Press the spacebar for 0.7 seconds
-        if msg == "brake": 
+        if msg == "jump": 
             HoldAndReleaseKey(SPACE, 0.7)
 
         # Press the left mouse button down for 1 second, then release it
         if msg == "shoot": 
             pydirectinput.mouseDown(button="left")
-            time.sleep(1)
+            time.sleep(0.1)
             pydirectinput.mouseUp(button="left")
 
         # Move the mouse up by 30 pixels
         if msg == "aim up":
             pydirectinput.moveRel(0, -30, relative=True)
+        
+        if msg == "aim down":
+            pydirectinput.moveRel(0, 30, relative=True)
 
         # Move the mouse right by 200 pixels
         if msg == "aim right":
-            pydirectinput.moveRel(200, 0, relative=True)
+            pydirectinput.moveRel(30, 0, relative=True)
+
+        if msg == "aim left":
+            pydirectinput.moveRel(-30, 0, relative=True)
 
         ####################################
         ####################################
