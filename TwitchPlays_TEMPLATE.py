@@ -74,8 +74,9 @@ else:
     t = TwitchPlays_Connection.YouTube()
     t.youtube_connect(YOUTUBE_CHANNEL_ID, YOUTUBE_STREAM_URL)
 
-bigLookAmount = 200
-smallLookAmount = 30
+big_look_amount = 200
+normal_look_amount = 115
+small_look_amount = 30
 
 def handle_message(message):
     try:
@@ -119,37 +120,66 @@ def handle_message(message):
         if msg == "jump": 
             HoldAndReleaseKey(SPACE, 0.7)
 
+        if msg == "crouch":
+            HoldKey(RIGHT_BRACKET)
+        
+        if msg == "uncrouch":
+            ReleaseKey(RIGHT_BRACKET)
+
+        if msg == "ads":
+            pydirectinput.mouseDown(button="right")
+            time.sleep(2)
+            pydirectinput.mouseUp(button="right")
+
         # Press the left mouse button down for 1 second, then release it
         if msg == "shoot": 
             pydirectinput.mouseDown(button="left")
             time.sleep(0.1)
             pydirectinput.mouseUp(button="left")
+        
+        if msg == "long shoot":
+            pydirectinput.mouseDown(button="left")
+            time.sleep(1)
+            pydirectinput.mouseUp(button="left")
 
-        # Move the mouse up by 30 pixels
+        # Move the mouse by 200 pixels
         if msg == "big aim up":
-            pydirectinput.moveRel(0, bigLookAmount*-1, relative=True)
+            pydirectinput.moveRel(0, big_look_amount*-1, relative=True)
         
         if msg == "big aim down":
-            pydirectinput.moveRel(0, bigLookAmount, relative=True)
+            pydirectinput.moveRel(0, big_look_amount, relative=True)
 
-        # Move the mouse right by 200 pixels
         if msg == "big aim right":
-            pydirectinput.moveRel(bigLookAmount, 0, relative=True)
+            pydirectinput.moveRel(big_look_amount, 0, relative=True)
 
         if msg == "big aim left":
-            pydirectinput.moveRel(-1*bigLookAmount, 0, relative=True)
+            pydirectinput.moveRel(-1*big_look_amount, 0, relative=True)
 
+        # move the mouse by 30 pixels
         if msg == "small aim up":
-            pydirectinput.moveRel(0, smallLookAmount*-1, relative=True)
+            pydirectinput.moveRel(0, small_look_amount*-1, relative=True)
         
         if msg == "small aim down":
-            pydirectinput.moveRel(0, smallLookAmount, relative=True)
+            pydirectinput.moveRel(0, small_look_amount, relative=True)
 
         if msg == "small aim right":
-            pydirectinput.moveRel(smallLookAmount, 0, relative=True)
+            pydirectinput.moveRel(small_look_amount, 0, relative=True)
 
         if msg == "small aim left":
-            pydirectinput.moveRel(smallLookAmount*-1, 0, relative=True)
+            pydirectinput.moveRel(small_look_amount*-1, 0, relative=True)
+
+        # move the mouse by 115 pixels
+        if msg == "aim up":
+            pydirectinput.moveRel(0, normal_look_amount*-1, relative=True)
+        
+        if msg == "aim down":
+            pydirectinput.moveRel(0, normal_look_amount, relative=True)
+
+        if msg == "aim right":
+            pydirectinput.moveRel(normal_look_amount, 0, relative=True)
+
+        if msg == "aim left":
+            pydirectinput.moveRel(normal_look_amount*-1, 0, relative=True)
 
         ####################################
         ####################################
