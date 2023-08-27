@@ -5,6 +5,18 @@ import pydirectinput
 import pyautogui
 import TwitchPlays_Connection
 from TwitchPlays_KeyCodes import *
+import pyttsx3
+import asyncio
+
+async def speak(message, engine):
+    engine.say(message)
+    engine.startLoop()
+
+async def main(message):
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 225)
+    await speak(message, engine)
+    engine.endLoop()
 
 ##################### GAME VARIABLES #####################
 
@@ -37,6 +49,9 @@ MESSAGE_RATE = 0.5
 MAX_QUEUE_LENGTH = 20
 MAX_WORKERS = 100 # Maximum number of threads you can process at a time 
 
+# TTS_MODE changes code over to tts ONLY
+TTS_MODE = False
+
 last_time = time.time()
 message_queue = []
 thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS)
@@ -59,12 +74,19 @@ else:
     t = TwitchPlays_Connection.YouTube()
     t.youtube_connect(YOUTUBE_CHANNEL_ID, YOUTUBE_STREAM_URL)
 
+bigLookAmount = 200
+smallLookAmount = 30
+
 def handle_message(message):
     try:
         msg = message['message'].lower()
         username = message['username'].lower()
 
         print("Got this message from " + username + ": " + msg)
+
+        
+        if TTS_MODE:
+            asyncio.run(main(msg))
 
         # Now that you have a chat message, this is where you add your game logic.
         # Use the "HoldKey(KEYCODE)" function to permanently press and hold down a key.
@@ -104,18 +126,30 @@ def handle_message(message):
             pydirectinput.mouseUp(button="left")
 
         # Move the mouse up by 30 pixels
-        if msg == "aim up":
-            pydirectinput.moveRel(0, -30, relative=True)
+        if msg == "big aim up":
+            pydirectinput.moveRel(0, bigLookAmount*-1, relative=True)
         
-        if msg == "aim down":
-            pydirectinput.moveRel(0, 30, relative=True)
+        if msg == "big aim down":
+            pydirectinput.moveRel(0, bigLookAmount, relative=True)
 
         # Move the mouse right by 200 pixels
-        if msg == "aim right":
-            pydirectinput.moveRel(30, 0, relative=True)
+        if msg == "big aim right":
+            pydirectinput.moveRel(bigLookAmount, 0, relative=True)
 
-        if msg == "aim left":
-            pydirectinput.moveRel(-30, 0, relative=True)
+        if msg == "big aim left":
+            pydirectinput.moveRel(-1*bigLookAmount, 0, relative=True)
+
+        if msg == "small aim up":
+            pydirectinput.moveRel(0, smallLookAmount*-1, relative=True)
+        
+        if msg == "small aim down":
+            pydirectinput.moveRel(0, smallLookAmount, relative=True)
+
+        if msg == "small aim right":
+            pydirectinput.moveRel(smallLookAmount, 0, relative=True)
+
+        if msg == "small aim left":
+            pydirectinput.moveRel(smallLookAmount*-1, 0, relative=True)
 
         ####################################
         ####################################
